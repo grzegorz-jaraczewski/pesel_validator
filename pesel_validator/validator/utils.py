@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from constants import weights
+from validator.constants import weights
 
 
 def validate_pesel(pesel: str) -> dict:
@@ -14,7 +14,7 @@ def validate_pesel(pesel: str) -> dict:
     Validation steps:
         - Must be exactly 11 digits long.
         - Must have a valid checksum according to PESEL weights.
-        - Must encode a valid birth date (with century inferred from month).
+        - Must encode a valid birth_date (with century inferred from month).
         - Determines gender based on the 10th digit.
 
     Args:
@@ -32,7 +32,7 @@ def validate_pesel(pesel: str) -> dict:
         return {"valid": False, "error": "PESEL must be 11 digits."}
 
     pesel_digits = [int(d) for d in pesel]
-    pesel_check_sum = (10 - sum(w * d for w, d in zip(weights, pesel)) % 10) % 10
+    pesel_check_sum = (10 - sum(w * d for w, d in zip(weights, pesel_digits)) % 10) % 10
     if pesel_check_sum != pesel_digits[-1]:
         return {"valid": False, "error": "Invalid checksum."}
 
