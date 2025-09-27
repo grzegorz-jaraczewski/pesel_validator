@@ -3,9 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <title>PESEL Validator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 60px auto;
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .valid {
+            background-color: #e6ffed;
+            border: 1px solid #2ecc71;
+            color: #2d7a46;
+        }
+
+        .invalid {
+            background-color: #ffe6e6;
+            border: 1px solid #e74c3c;
+            color: #a83232;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
     <h1>PESEL Validator</h1>
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -13,14 +86,17 @@
     </form>
 
     {% if output %}
-        {% if result.valid %}
-            <p><strong>PESEL is valid ✅</strong></p>
-            <p>Birth date: {{ output.birth_date }}</p>
-            <p>Gender: {{ output.gender }}</p>
-        {% else %}
-            <p><strong>Invalid PESEL ❌</strong></p>
-            <p>Reason: {{ output.error }}</p>
-        {% endif %}
+        <div class="result {% if output.valid %}valid{% else %}invalid{% endif %}">
+            {% if output.valid %}
+                <p><strong>✅ PESEL is valid</strong></p>
+                <p><strong>Birth date:</strong> {{ output.birth_date }}</p>
+                <p><strong>Gender:</strong> {{ output.gender }}</p>
+            {% else %}
+                <p><strong>❌ Invalid PESEL</strong></p>
+                <p><strong>Reason:</strong> {{ output.error }}</p>
+            {% endif %}
+        </div>
     {% endif %}
+</div>
 </body>
 </html>
