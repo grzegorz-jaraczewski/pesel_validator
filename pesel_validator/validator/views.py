@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from forms import PeselForm
-from utils import validate_pesel
+from validator.forms import PeselForm
+from validator.utils import validate_pesel
 
 
 def home(request):
