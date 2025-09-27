@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PESEL Validator</title>
+</head>
+<body>
+    <h1>PESEL Validator</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Validate</button>
+    </form>
+
+    {% if output %}
+        {% if result.valid %}
+            <p><strong>PESEL is valid ✅</strong></p>
+            <p>Birth date: {{ output.birth_date }}</p>
+            <p>Gender: {{ output.gender }}</p>
+        {% else %}
+            <p><strong>Invalid PESEL ❌</strong></p>
+            <p>Reason: {{ output.error }}</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
